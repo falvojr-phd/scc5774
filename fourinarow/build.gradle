@@ -3,6 +3,7 @@ apply plugin: 'java'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+// Task to upload bot at theaigames.com
 task srcZip(type: Zip) {
 	archiveName="bot.zip"
     classifier = 'src'
