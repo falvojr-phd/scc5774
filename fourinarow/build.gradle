@@ -3,21 +3,8 @@ apply plugin: 'java'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-task fatJar(type: Jar) {
-    manifest {
-        attributes 'Implementation-Title': 'Four in a row',
-                   'Implementation-Version': '1.0.0',
-                   'Main-Class': 'br.usp.scc5774.bot.BotStarter'
-    }
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
-
-repositories {
-    jcenter()
-}
-
-dependencies {
-    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+task srcZip(type: Zip) {
+	archiveName="bot.zip"
+    classifier = 'src'
+    from sourceSets*.allSource
 }

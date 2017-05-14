@@ -1,3 +1,5 @@
+package bot;
+
 // Copyright 2015 theaigames.com (developers@theaigames.com)
 
 //    Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +17,6 @@
 //    For the full copyright and license information, please view the LICENSE
 //    file that was distributed with this source code.
 
-package br.usp.scc5774.bot;
 import java.util.Scanner;
 
 /**
