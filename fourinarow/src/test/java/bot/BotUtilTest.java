@@ -6,6 +6,11 @@ import org.junit.Test;
 
 import bot.util.BotUtil;
 
+/**
+ * Unit tests for {@link BotUtil} class.
+ * 
+ * @author falvojr
+ */
 public class BotUtilTest {
 	
 	@Test
@@ -35,7 +40,20 @@ public class BotUtilTest {
 	}
 	
 	@Test
-	public void checkDiagonalWin() {
+	public void checkDiagonalUpLeftWin() {	
+		int[][] board = {
+				{0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 0, 0, 0, 0},
+				{0, 0, 0, 1, 0, 2, 1},
+				{0, 0, 0, 1, 1, 2, 2},
+				{0, 0, 0, 2, 2, 1, 2},
+				{0, 0, 2, 1, 1, 2, 1}
+			};
+		assertTrue("Diagonal (up right) winner should return '1'", BotUtil.checkWinner(board) == 1);
+	}
+	
+	@Test
+	public void checkDiagonalUpRightWin() {	
 		int[][] board = {
 			{0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0},
@@ -44,7 +62,7 @@ public class BotUtilTest {
 			{0, 0, 0, 2, 1, 1, 2},
 			{0, 0, 2, 1, 1, 2, 1}
 		};
-		assertTrue("Diagonal winner should return '2'", BotUtil.checkWinner(board) == 2);
+		assertTrue("Diagonal (up left) winner should return '2'", BotUtil.checkWinner(board) == 2);
 	}
 
 }
