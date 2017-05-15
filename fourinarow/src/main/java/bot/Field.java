@@ -1,5 +1,7 @@
 package bot;
 
+import bot.util.BotUtil;
+
 // // Copyright 2015 theaigames.com (developers@theaigames.com)
 
 //    Licensed under the Apache License, Version 2.0 (the "License");
@@ -62,7 +64,7 @@ public class Field {
 	public void clearBoard() {
 		for (int x = 0; x < mCols; x++) {
 			for (int y = 0; y < mRows; y++) {
-				mBoard[x][y] = 0;
+				mBoard[x][y] = BotUtil.EMPTY_SLOT;
 			}
 		}
 	}
@@ -75,8 +77,9 @@ public class Field {
 	public Boolean addDisc(int column, int disc) {
 		mLastError = "";
 		if (column < mCols) {
-			for (int y = mRows-1; y >= 0; y--) { // From bottom column up
-				if (mBoard[column][y] == 0) {
+			for (int y = mRows-1; y >= 0; y--) { 
+				// From bottom column up
+				if (mBoard[column][y] == BotUtil.EMPTY_SLOT) {
 					mBoard[column][y] = disc;
 					mLastColumn = column;
 					return true;
@@ -120,7 +123,7 @@ public class Field {
 	 * @return : Boolean
 	 */
 	public Boolean isValidMove(int column) {
-		return (mBoard[column][0] == 0);
+		return mBoard[column][0] == BotUtil.EMPTY_SLOT;
 	}
 	
 	/**
@@ -160,8 +163,10 @@ public class Field {
 	public boolean isFull() {
 		for (int x = 0; x < mCols; x++)
 		  for (int y = 0; y < mRows; y++)
-		    if (mBoard[x][y] == 0)
-		      return false; // At least one cell is not filled
+		    if (mBoard[x][y] == BotUtil.EMPTY_SLOT) {
+		    	// At least one cell is not filled
+		    	return false;
+		    }
 		// All cells are filled
 		return true;
 	}
@@ -171,7 +176,7 @@ public class Field {
 	 * @return : Returns true when given column is full, otherwise returns false.
 	 */
 	public boolean isColumnFull(int column) {
-		return (mBoard[column][0] != 0);
+		return mBoard[column][0] != BotUtil.EMPTY_SLOT;
 	}
 	
 	/**

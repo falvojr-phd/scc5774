@@ -9,3 +9,11 @@ task srcZip(type: Zip) {
     classifier = 'src'
     from sourceSets*.allSource
 }
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
