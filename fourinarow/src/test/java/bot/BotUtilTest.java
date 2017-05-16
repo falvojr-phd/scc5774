@@ -23,7 +23,7 @@ public class BotUtilTest {
 			{0, 0, 0, 2, 0, 0, 0},
 			{0, 0, 0, 1, 1, 1, 1}
 		};
-		assertTrue("Horizontal winner should return '1'", BotUtil.checkWinner(board) == 1);
+		assertTrue("Horizontal winner should return '1'", BotUtil.checkTerminal(board) == 1);
 	}
 	
 	@Test
@@ -36,7 +36,7 @@ public class BotUtilTest {
 			{0, 0, 1, 1, 2, 0, 0},
 			{0, 0, 1, 2, 2, 0, 0}
 		};
-		assertTrue("Vertical winner should return '2'", BotUtil.checkWinner(board) == 2);
+		assertTrue("Vertical winner should return '2'", BotUtil.checkTerminal(board) == 2);
 	}
 	
 	@Test
@@ -49,7 +49,7 @@ public class BotUtilTest {
 			{0, 0, 0, 2, 2, 1, 2},
 			{0, 0, 2, 1, 1, 2, 1}
 		};
-		assertTrue("Diagonal (up right) winner should return '1'", BotUtil.checkWinner(board) == 1);
+		assertTrue("Diagonal (up right) winner should return '1'", BotUtil.checkTerminal(board) == 1);
 	}
 	
 	@Test
@@ -62,7 +62,7 @@ public class BotUtilTest {
 			{0, 0, 0, 2, 1, 1, 2},
 			{0, 0, 2, 1, 1, 2, 1}
 		};
-		assertTrue("Diagonal (up left) winner should return '2'", BotUtil.checkWinner(board) == 2);
+		assertTrue("Diagonal (up left) winner should return '2'", BotUtil.checkTerminal(board) == 2);
 	}
 
 }

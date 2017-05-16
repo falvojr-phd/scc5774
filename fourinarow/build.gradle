@@ -7,7 +7,7 @@ targetCompatibility = 1.8
 task srcZip(type: Zip) {
 	archiveName="bot.zip"
     classifier = 'src'
-    from sourceSets*.allSource
+    from sourceSets.main.allSource
 }
 
 repositories {

@@ -20,7 +20,7 @@ public final class BotUtil {
 	 * 
 	 * @return int (disc) of the winner
 	 */
-	public static int checkWinner(int[][] board) {
+	public static int checkTerminal(int[][] board) {
 		final int height = board.length;
 		final int width = board[0].length;
 		// iterate rows, bottom to top
@@ -35,16 +35,16 @@ public final class BotUtil {
 	            if (col + 3 < width && checkRight(board, row, col, player)) {
 	                    return player;
 	            }
-	                if (row + 3 < height) {
-	                    if (checkUp(board, row, col, player)) {
-	                        return player;
-	                    }
-	                    if (col + 3 < width && checkUpRight(board, row, col, player)) {
-	                        return player;
-	                    }
-	                    if (col - 3 >= 0 && checkUpLeft(board, row, col, player)) {
-	                        return player;
-	                    }
+				if (row + 3 < height) {
+					if (checkUp(board, row, col, player)) {
+						return player;
+					}
+					if (col + 3 < width && checkUpRight(board, row, col, player)) {
+						return player;
+					}
+					if (col - 3 >= 0 && checkUpLeft(board, row, col, player)) {
+						return player;
+					}
 				}
 			}
 		}
