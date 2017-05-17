@@ -25,7 +25,7 @@ import java.util.Scanner;
  * Main class that will keep reading output from the engine.
  * Will either update the bot state or get actions.
  * 
- * @author Jim van Eeden <jim@starapple.nl>, Joost de Meij <joost@starapple.nl>
+ * @author Venilton FalvoJr <falvojr@gmail.com>, Jim van Eeden <jim@starapple.nl>, Joost de Meij <joost@starapple.nl>
  */
 
 public class BotParser {
@@ -33,8 +33,8 @@ public class BotParser {
 	final Scanner scan;
     final BotStarter bot;
     
-    private Field mField;
-    public static int mBotId = 0;
+    private Board mBoard;
+    public static int mBotId = 1;
 
     
     public BotParser(BotStarter bot) {
@@ -43,7 +43,7 @@ public class BotParser {
 	}
     
     public void run() {
-        mField = new Field(0, 0);
+        mBoard = new Board(0, 0);
         while(scan.hasNextLine()) {
             String line = scan.nextLine();
 
@@ -55,10 +55,10 @@ public class BotParser {
             
             if(parts[0].equals("settings")) {
                 if (parts[1].equals("field_columns")) {
-                    mField.setColumns(Integer.parseInt(parts[2]));
+                    mBoard.setCols(Integer.parseInt(parts[2]));
                 }
                 if (parts[1].equals("field_rows")) {
-                    mField.setRows(Integer.parseInt(parts[2]));
+                    mBoard.setRows(Integer.parseInt(parts[2]));
                 }
                 if (parts[1].equals("your_botid")) {
                     mBotId = Integer.parseInt(parts[2]);
@@ -66,11 +66,11 @@ public class BotParser {
             } else if(parts[0].equals("update")) { /* new field data */
                 if (parts[2].equals("field")) {
                     String data = parts[3];
-                    mField.parseFromString(data); /* Parse Field with data */
+                    mBoard.parseFromString(data); /* Parse Field with data */
                 }
             } else if(parts[0].equals("action")) {
                 if (parts[1].equals("move")) { /* move requested */
-                    int column = bot.makeTurn(mField);
+                    int column = bot.makeTurn(mBoard);
                     System.out.println("place_disc " + column);
                 }
             }
