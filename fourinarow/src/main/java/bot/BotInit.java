@@ -1,4 +1,4 @@
-package bot.util;
+package bot;
 
 /**
  * Bot global configurations.

@@ -1,6 +1,6 @@
 package bot;
 
-import static bot.util.BotInit.*;
+import static bot.BotInit.*;
 
 /**
  * Board 4 in a row abstraction.
@@ -9,7 +9,7 @@ import static bot.util.BotInit.*;
  */
 public class Board {
 
-	private int player = BotParser.mBotId;
+	private int player;
 	private int[][] field;
 	private int cols;
 	private int rows;
@@ -35,6 +35,10 @@ public class Board {
 	public void setRows(int rows) {
 		this.rows = rows;
 		this.field = new int[rows][cols];
+	}
+
+	public void setPlayer(int player) {
+		this.player = player;
 	}
 
 	public int getCols() {

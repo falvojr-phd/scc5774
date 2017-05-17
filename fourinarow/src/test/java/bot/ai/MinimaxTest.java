@@ -1,10 +1,12 @@
-package bot;
+package bot.ai;
 
-import static bot.util.BotInit.*;
+import static bot.BotInit.*;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import bot.Board;
+import bot.BotParser;
 import bot.ai.Minimax;
 
 /**
@@ -12,7 +14,7 @@ import bot.ai.Minimax;
  * 
  * @author falvojr
  */
-public class BotUtilTest {
+public class MinimaxTest {
 	
 	@Test
 	public void testHorizontalWin() {
@@ -71,7 +73,9 @@ public class BotUtilTest {
 	}
 	
 	private int[] runMinimax(int[][] field) {
-		final Board board = new Board(field, 1);
+		final int player = 1;
+		BotParser.mBotId = player;
+		final Board board = new Board(field, player);
 		final int[] state = Minimax.getInstance().maxValue(board, DEPTH, ALPHA, BETA);
 		return state;
 	}

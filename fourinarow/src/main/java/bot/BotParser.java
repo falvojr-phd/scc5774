@@ -34,7 +34,7 @@ public class BotParser {
     final BotStarter bot;
     
     private Board mBoard;
-    public static int mBotId = 1;
+    public static int mBotId = 0;
 
     
     public BotParser(BotStarter bot) {
@@ -62,6 +62,7 @@ public class BotParser {
                 }
                 if (parts[1].equals("your_botid")) {
                     mBotId = Integer.parseInt(parts[2]);
+                    mBoard.setPlayer(mBotId);
                 }
             } else if(parts[0].equals("update")) { /* new field data */
                 if (parts[2].equals("field")) {

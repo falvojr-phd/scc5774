@@ -1,6 +1,6 @@
 package bot;
 
-import static bot.util.BotInit.*;
+import static bot.BotInit.*;
 
 import bot.ai.Minimax;
 
