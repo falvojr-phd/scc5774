@@ -27,15 +27,18 @@ import bot.util.BotUtil;
  * @author Jim van Eeden <jim@starapple.nl>, Joost de Meij <joost@starapple.nl>
  */
 
-public class Field {	
+public class Field {
+	
+	private static final int WIN_SCORE = 100000;	
+	
 	private int[][] mBoard;
 	private int mCols = 0, mRows = 0;
 	private String mLastError = "";
 	public int mLastColumn = 0;
 	
-	public Field(int columns, int rows) {
-		mBoard = new int[columns][rows];
-		mCols = columns;
+	public Field(int cols, int rows) {
+		mBoard = new int[cols][rows];
+		mCols = cols;
 		mRows = rows;
 		clearBoard();
 	}
@@ -93,7 +96,7 @@ public class Field {
 	}
 	
 	/**
-	 * Initialise field from comma separated String
+	 * Initialize field from comma separated String
 	 * @param String : 
 	 */
 	public void parseFromString(String s) {
@@ -135,12 +138,12 @@ public class Field {
 		return mLastError;
 	}
 	
-	@Override
 	/**
 	 * Creates comma separated String with every cell.
 	 * @param args : 
 	 * @return : String
 	 */
+	@Override
 	public String toString() {
 		String r = "";
 		int counter = 0;
@@ -182,7 +185,7 @@ public class Field {
 	/**
 	 * @return : Returns the number of columns in the field.
 	 */
-	public int getNrColumns() {
+	public int getCols() {
 		return mCols;
 	}
 	
@@ -191,5 +194,88 @@ public class Field {
 	 */
 	public int getNrRows() {
 		return mRows;
+	}
+	
+	/**
+	 * @see https://github.com/Gimu/connect-four-js/blob/master/plain/alphabeta/js/board.js#L23
+	 */
+	public boolean isFinished(int depth, int score) {
+	    if (depth == 0 || score == WIN_SCORE || score == -WIN_SCORE || this.isFull()) {
+	        return true;
+	    }
+	    return false;
+	}
+	
+	/**
+	 * @see https://github.com/Gimu/connect-four-js/blob/master/plain/alphabeta/js/board.js#L63
+	 */
+	public int scorePosition(int row, int column, int deltaY, int deltaX) {
+		int enemyPoints = 0, enemyId = BotParser.mBotId == 1 ? 2 : 1;
+		int botPoints = 0;
+		for (int i = 0; i < 4; i++) {
+			if (this.mBoard[column][row] == enemyId) {
+				enemyPoints++;
+			} else if (this.mBoard[column][row] == BotParser.mBotId) {
+				botPoints++;
+			}
+			row += deltaY;
+			column += deltaX;
+		}
+		if (enemyPoints == 4) {
+			return -WIN_SCORE;
+		} else if (botPoints == 4) {
+			return WIN_SCORE;
+		} else {
+			return botPoints;
+		}
+	}
+	
+	/**
+	 * @see https://github.com/Gimu/connect-four-js/blob/master/plain/alphabeta/js/board.js#L106
+	 */
+	public int score() {
+		
+	    int verticalPoints = 0;
+	    int horizontalPoints = 0;
+	    int diagonal1Points = 0;
+	    int diagonal2Points = 0;
+	    
+	    for (int row = 0; row < this.mRows - 3; row++) {
+	        for (int column = 0; column < this.mCols; column++) {
+	        	final int score = this.scorePosition(row, column, 1, 0);
+	            if (score == WIN_SCORE) return WIN_SCORE;
+	            if (score == -WIN_SCORE) return -WIN_SCORE;
+	            verticalPoints += score;
+	        }            
+	    }
+
+	    for (int row = 0; row < this.mRows; row++) {
+	        for (int column = 0; column < this.mCols - 3; column++) { 
+	        	final int score = this.scorePosition(row, column, 0, 1);
+	            if (score == WIN_SCORE) return WIN_SCORE;
+	            if (score == -WIN_SCORE) return -WIN_SCORE;
+	            horizontalPoints += score;
+	        } 
+	    }
+
+	    for (int row = 0; row < this.mRows - 3; row++) {
+	        for (int column = 0; column < this.mCols - 3; column++) {
+	        	final int score = this.scorePosition(row, column, 1, 1);
+	            if (score == WIN_SCORE) return WIN_SCORE;
+	            if (score == -WIN_SCORE) return -WIN_SCORE;
+	            diagonal1Points += score;
+	        }            
+	    }
+
+	    for (int row = 3; row < this.mRows; row++) {
+	        for (int column = 0; column <= this.mCols - 4; column++) {
+	        	final int score = this.scorePosition(row, column, -1, +1);
+	            if (score == WIN_SCORE) return WIN_SCORE;
+	            if (score == -WIN_SCORE) return -WIN_SCORE;
+	            diagonal2Points += score;
+	        }
+	    }
+
+	    return horizontalPoints + verticalPoints + diagonal1Points + diagonal2Points;
 	}
 }
