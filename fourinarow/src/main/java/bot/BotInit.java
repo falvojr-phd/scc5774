@@ -17,7 +17,7 @@ public class BotInit {
 	/**
 	 * Search depth.
 	 */
-	public static final int DEPTH = 4;
+	public static final int DEPTH = 10;
 	/**
 	 * Win/loss score.
 	 */
