@@ -33,7 +33,7 @@ public class BotParser {
 	final Scanner scan;
     final BotStarter bot;
     
-    private Board mBoard;
+    private Field mBoard;
     public static int mBotId = 0;
 
     
@@ -43,7 +43,7 @@ public class BotParser {
 	}
     
     public void run() {
-        mBoard = new Board(0, 0);
+        mBoard = new Field(0, 0);
         while(scan.hasNextLine()) {
         	final String line = scan.nextLine();
 

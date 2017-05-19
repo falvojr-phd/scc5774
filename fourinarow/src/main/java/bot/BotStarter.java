@@ -18,12 +18,15 @@ public class BotStarter {
 	/**
 	 * Makes a turn. Edit this method to make your bot smarter.
 	 * 
-	 * @param board current {@link Board}.
+	 * @param field current {@link Field}.
 	 *
 	 * @return The column where the turn was made.
 	 */
-	public int makeTurn(final Board board) {
-		final int[] state = Minimax.getInstance().maxValue(board, DEPTH, ALPHA, BETA);
+	public int makeTurn(final Field field) {
+		if (field.isEmpty()) {
+			return 3;
+		}
+		final int[] state = Minimax.getInstance().maxValue(field, DEPTH, ALPHA, BETA);
 		final int col = state[0];
 		return col;
 	}

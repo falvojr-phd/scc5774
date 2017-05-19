@@ -7,14 +7,6 @@ package bot;
  */
 public class BotConfig {
 	/**
-	 * Height.
-	 */
-	public static final int ROWS = 6;
-	/**
-	 * Width.
-	 */
-	public static final int COLS = 7;
-	/**
 	 * Search depth.
 	 */
 	public static final int DEPTH = 9;

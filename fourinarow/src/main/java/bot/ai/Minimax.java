@@ -1,6 +1,6 @@
 package bot.ai;
 
-import bot.Board;
+import bot.Field;
 
 /**
  * Minimax (+Alpha-Beta) implementation.
@@ -11,20 +11,20 @@ public class Minimax {
 
 	private static final int UNKNOW_COL = -1;
 	
-	public int[] maxValue(final Board board, final int depth, int alpha, final int beta) {
+	public int[] maxValue(final Field field, final int depth, int alpha, final int beta) {
 		// if terminal (state) return utility(state)
-		int score = board.score();
-		if (board.isTerminal(depth, score)) {
+		final int score = field.score();
+		if (field.isTerminal(depth, score)) {
 			return new int[] { UNKNOW_COL, score };
 		}
 		// initialize v = -∞
-		int[] value = new int[] { UNKNOW_COL, Integer.MIN_VALUE };
+		final int[] value = new int[] { UNKNOW_COL, Integer.MIN_VALUE };
 		// for each successor of state:
-		for (int col = 0; col < board.getCols(); col++) {
-			Board clonedBoard = board.clone();
-			if (clonedBoard.addDisc(col)) {
+		for (int col = 0; col < field.getCols(); col++) {
+			final Field clonedField = field.clone();
+			if (clonedField.addDisc(col)) {
 				// v = max(v, min-value(successor, α, β))
-				int[] valueSucessor = this.minValue(clonedBoard, depth - 1, alpha, beta);
+				final int[] valueSucessor = this.minValue(clonedField, depth - 1, alpha, beta);
 				if (value[0] == UNKNOW_COL || valueSucessor[1] > value[1]) {
 					value[0] = col;
 					value[1] = valueSucessor[1];
@@ -41,20 +41,20 @@ public class Minimax {
 		return value;
 	}
 
-	public int[] minValue(final Board board, final int depth, final int alpha, int beta) {	
+	public int[] minValue(final Field field, final int depth, final int alpha, int beta) {	
 		// if terminal (state) return utility(state)
-		int score = board.score();
-		if (board.isTerminal(depth, score)) {
+		final int score = field.score();
+		if (field.isTerminal(depth, score)) {
 			return new int[] { UNKNOW_COL, score };
 		}
 		// initialize v = +∞
-		int[] value = new int[] { UNKNOW_COL, Integer.MAX_VALUE };
+		final int[] value = new int[] { UNKNOW_COL, Integer.MAX_VALUE };
 		// for each successor of state:
-		for (int col = 0; col < board.getCols(); col++) {
-			final Board clonedBoard = board.clone();
-			if (clonedBoard.addDisc(col)) {
+		for (int col = 0; col < field.getCols(); col++) {
+			final Field clonedField = field.clone();
+			if (clonedField.addDisc(col)) {
 				// v = min(v, max-value(successor, α, β))
-				int[] valueSucessor = this.maxValue(clonedBoard, depth - 1, alpha, beta);
+				int[] valueSucessor = this.maxValue(clonedField, depth - 1, alpha, beta);
 				if (value[0] == UNKNOW_COL || valueSucessor[1] < value[1]) {
 					value[0] = col;
 					value[1] = valueSucessor[1];

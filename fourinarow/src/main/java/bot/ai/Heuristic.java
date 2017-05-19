@@ -2,7 +2,7 @@ package bot.ai;
 
 import static bot.BotConfig.SCORE;
 
-import bot.Board;
+import bot.Field;
 import bot.BotParser;
 
 /**
@@ -58,11 +58,11 @@ public class Heuristic {
      * [ ][ ][ ][ ][ ][ ][ ] 4<br>
      * [ ][ ][ ][ ][ ][ ][ ] 5<br>
 	 */
-	public int score(final Board board) {
+	public int score(final Field field) {
 		int scoreVertical = 0;
-		for (int row = 0; row < board.getRows() - 3; row++) {
-			for (int col = 0; col < board.getCols(); col++) {
-				final int score = scorePosition(board, row, col, 1, 0);
+		for (int row = 0; row < field.getRows() - 3; row++) {
+			for (int col = 0; col < field.getCols(); col++) {
+				final int score = scorePosition(field, row, col, 1, 0);
 				if (score == SCORE || score == -SCORE) {
 					return score;
 				}
@@ -70,9 +70,9 @@ public class Heuristic {
 			}
 		}
 		int scoreHorizontal = 0;
-		for (int row = 0; row < board.getRows(); row++) {
-			for (int col = 0; col < board.getCols() - 3; col++) {
-				final int score = scorePosition(board, row, col, 0, 1);
+		for (int row = 0; row < field.getRows(); row++) {
+			for (int col = 0; col < field.getCols() - 3; col++) {
+				final int score = scorePosition(field, row, col, 0, 1);
 				if (score == SCORE || score == -SCORE) {
 					return score;
 				}
@@ -80,9 +80,9 @@ public class Heuristic {
 			}
 		}
 		int scoreDiagonalLeftBottom = 0;
-		for (int row = 0; row < board.getRows() - 3; row++) {
-			for (int col = 0; col < board.getCols() - 3; col++) {
-				final int score = scorePosition(board, row, col, 1, 1);
+		for (int row = 0; row < field.getRows() - 3; row++) {
+			for (int col = 0; col < field.getCols() - 3; col++) {
+				final int score = scorePosition(field, row, col, 1, 1);
 				if (score == SCORE || score == -SCORE) {
 					return score;
 				}
@@ -90,9 +90,9 @@ public class Heuristic {
 			}
 		}
 		int scoreDiagonalRightBottom = 0;
-		for (int row = 3; row < board.getRows(); row++) {
-			for (int col = 0; col <= board.getCols() - 4; col++) {
-				final int score = scorePosition(board, row, col, -1, +1);
+		for (int row = 3; row < field.getRows(); row++) {
+			for (int col = 0; col <= field.getCols() - 4; col++) {
+				final int score = scorePosition(field, row, col, -1, +1);
 				if (score == SCORE || score == -SCORE) {
 					return score;
 				}
@@ -102,13 +102,13 @@ public class Heuristic {
 		return scoreVertical + scoreHorizontal + scoreDiagonalLeftBottom + scoreDiagonalRightBottom;
 	}
 	
-	private int scorePosition(final Board board, int row, int col, final int deltaY, final int deltaX) {
+	private int scorePosition(final Field field, int row, int col, final int deltaY, final int deltaX) {
 		int enemyPoints = 0;
 		int myPoints = 0;
 		for (int i = 0; i < 4; i++) {
-			if (board.getField()[row][col] == getEnemyId()) {
+			if (field.getBoard()[row][col] == getEnemyId()) {
 				enemyPoints++;
-			} else if (board.getField()[row][col] == getMyId()) {
+			} else if (field.getBoard()[row][col] == getMyId()) {
 				myPoints++;
 			}
 			row += deltaY;

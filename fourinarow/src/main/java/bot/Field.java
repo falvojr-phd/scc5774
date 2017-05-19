@@ -9,38 +9,38 @@ import bot.ai.Heuristic;
  * 
  * @author Venilton FalvoJr <falvojr@gmail.com>
  */
-public class Board {
+public class Field {
 
-	private int[][] field;
+	private int[][] board;
 	private int cols;
 	private int rows;
 	private int player;
 
-	public Board(final int[][] field, final int player) {
-		this.field = field;
-		this.rows = field.length;
-		this.cols = field[0].length;
+	public Field(final int[][] board, final int player) {
+		this.board = board;
+		this.rows = board.length;
+		this.cols = board[0].length;
 		this.player = player;
 	}
 
-	public Board(final int rows, final int cols) {
-		this.field = new int[rows][cols];
+	public Field(final int rows, final int cols) {
+		this.board = new int[rows][cols];
 		this.rows = rows;
 		this.cols = cols;
 	}
 
-	public int[][] getField() {
-		return field;
+	public int[][] getBoard() {
+		return board;
 	}
 
 	public void setCols(final int cols) {
 		this.cols = cols;
-		this.field = new int[rows][cols];
+		this.board = new int[rows][cols];
 	}
 
 	public void setRows(final int rows) {
 		this.rows = rows;
-		this.field = new int[rows][cols];
+		this.board = new int[rows][cols];
 	}
 
 	public void setPlayer(final int player) {
@@ -61,12 +61,21 @@ public class Board {
 		int counter = 0;
 		for (int row = 0; row < this.rows; row++) {
 			for (int col = 0; col < this.cols; col++) {
-				this.field[row][col] = Integer.parseInt(dataArray[counter]);
+				this.board[row][col] = Integer.parseInt(dataArray[counter]);
 				counter++;
 			}
 		}
 	}
-
+	
+	public boolean isEmpty() {
+		for (int col = 0; col < this.cols; col++) {
+			if (!isEmptyColumn(col)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public boolean isTerminal(final int depth, final int score) {
 		if (depth == 0 || score == SCORE || score == -SCORE || isFull()) {
 			return true;
@@ -74,15 +83,11 @@ public class Board {
 		return false;
 	}
 
-	public boolean isValidMove(final int col) {
-		return this.field[0][col] == EMPTY_SLOT;
-	}
-
 	public boolean addDisc(final int col) {
-		if (isValidMove(col) && col >= 0 && col < this.cols) {
+		if (isNonFullColumn(col) && col >= 0 && col < this.cols) {
 			for (int row = this.rows - 1; row >= 0; row--) {
-				if (this.field[row][col] == EMPTY_SLOT) {
-					this.field[row][col] = this.player;
+				if (this.board[row][col] == EMPTY_SLOT) {
+					this.board[row][col] = this.player;
 					break;
 				}
 			}
@@ -93,15 +98,15 @@ public class Board {
 		}
 	}
 
-	public Board clone() {
-		final int[][] newField = new int[this.field.length][];
-		for (int i = 0; i < this.field.length; i++) {
-			final int[] aMatrix = this.field[i];
+	public Field clone() {
+		final int[][] newBoard = new int[this.board.length][];
+		for (int i = 0; i < this.board.length; i++) {
+			final int[] aMatrix = this.board[i];
 			final int aLength = aMatrix.length;
-			newField[i] = new int[aLength];
-			System.arraycopy(aMatrix, 0, newField[i], 0, aLength);
+			newBoard[i] = new int[aLength];
+			System.arraycopy(aMatrix, 0, newBoard[i], 0, aLength);
 		}
-		return new Board(newField, this.player);
+		return new Field(newBoard, this.player);
 	}
 
 	public int score() {
@@ -109,14 +114,22 @@ public class Board {
 	}
 
 	private boolean isFull() {
-		for (int col = 0; col < COLS; col++) {
-			if (isValidMove(col)) {
+		for (int col = 0; col < this.cols; col++) {
+			if (isNonFullColumn(col)) {
 				return false;
 			}
 		}
 		return true;
 	}
 
+	private boolean isNonFullColumn(final int col) {
+		return this.board[0][col] == EMPTY_SLOT;
+	}
+	
+	private boolean isEmptyColumn(final int col) {
+		return this.board[this.rows - 1][col] == EMPTY_SLOT;
+	}
+	
 	private int switchRound(int round) {
 		// 1 My Bot, 2 Enemy
 		if (round == 1) {
