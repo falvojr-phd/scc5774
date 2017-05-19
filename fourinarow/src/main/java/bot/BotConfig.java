@@ -3,7 +3,7 @@ package bot;
 /**
  * Bot global configurations.
  * 
- * @author falvojr
+ * @author Venilton FalvoJr <falvojr@gmail.com>
  */
 public class BotConfig {
 	/**

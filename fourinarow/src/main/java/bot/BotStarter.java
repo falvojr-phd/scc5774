@@ -22,14 +22,14 @@ public class BotStarter {
 	 *
 	 * @return The column where the turn was made.
 	 */
-	public int makeTurn(Board board) {
+	public int makeTurn(final Board board) {
 		final int[] state = Minimax.getInstance().maxValue(board, DEPTH, ALPHA, BETA);
 		final int col = state[0];
 		return col;
 	}
 
 	public static void main(String[] args) {
-		BotParser parser = new BotParser(new BotStarter());
+		final BotParser parser = new BotParser(new BotStarter());
 		parser.run();
 	}
 

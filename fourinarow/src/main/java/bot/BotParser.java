@@ -45,13 +45,13 @@ public class BotParser {
     public void run() {
         mBoard = new Board(0, 0);
         while(scan.hasNextLine()) {
-            String line = scan.nextLine();
+        	final String line = scan.nextLine();
 
             if(line.length() == 0) {
                 continue;
             }
 
-            String[] parts = line.split(" ");
+            final String[] parts = line.split(" ");
             
             if(parts[0].equals("settings")) {
                 if (parts[1].equals("field_columns")) {
@@ -66,12 +66,12 @@ public class BotParser {
                 }
             } else if(parts[0].equals("update")) { /* new field data */
                 if (parts[2].equals("field")) {
-                    String data = parts[3];
+                	final String data = parts[3];
                     mBoard.parseFromString(data); /* Parse Field with data */
                 }
             } else if(parts[0].equals("action")) {
                 if (parts[1].equals("move")) { /* move requested */
-                    int column = bot.makeTurn(mBoard);
+                	final int column = bot.makeTurn(mBoard);
                     System.out.println("place_disc " + column);
                 }
             }

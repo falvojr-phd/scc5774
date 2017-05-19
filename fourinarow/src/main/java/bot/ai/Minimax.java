@@ -3,15 +3,15 @@ package bot.ai;
 import bot.Board;
 
 /**
- * Minimax (+Alpha-Beta) Implementation.
+ * Minimax (+Alpha-Beta) implementation.
  * 
- * @author falvojr
+ * @author Venilton FalvoJr <falvojr@gmail.com>
  */
 public class Minimax {
 
 	private static final int UNKNOW_COL = -1;
 	
-	public int[] maxValue(Board board, int depth, int alpha, int beta) {
+	public int[] maxValue(final Board board, final int depth, int alpha, final int beta) {
 		// if terminal (state) return utility(state)
 		int score = board.score();
 		if (board.isTerminal(depth, score)) {
@@ -41,7 +41,7 @@ public class Minimax {
 		return value;
 	}
 
-	public int[] minValue(Board board, int depth, int alpha, int beta) {	
+	public int[] minValue(final Board board, final int depth, final int alpha, int beta) {	
 		// if terminal (state) return utility(state)
 		int score = board.score();
 		if (board.isTerminal(depth, score)) {
