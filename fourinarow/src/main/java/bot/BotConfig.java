@@ -5,7 +5,7 @@ package bot;
  * 
  * @author falvojr
  */
-public class BotInit {
+public class BotConfig {
 	/**
 	 * Height.
 	 */
@@ -17,7 +17,7 @@ public class BotInit {
 	/**
 	 * Search depth.
 	 */
-	public static final int DEPTH = 10;
+	public static final int DEPTH = 9;
 	/**
 	 * Win/loss score.
 	 */
@@ -35,7 +35,7 @@ public class BotInit {
 	 */
 	public static final int BETA = Integer.MAX_VALUE;
 
-	private BotInit() {
+	private BotConfig() {
 		super();
 	}
 }

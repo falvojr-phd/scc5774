@@ -12,49 +12,63 @@ public class Minimax {
 	private static final int UNKNOW_COL = -1;
 	
 	public int[] maxValue(Board board, int depth, int alpha, int beta) {
+		// if terminal (state) return utility(state)
 		int score = board.score();
-		if (board.isFinished(depth, score)) {
+		if (board.isTerminal(depth, score)) {
 			return new int[] { UNKNOW_COL, score };
 		}
-		int[] max = new int[] { UNKNOW_COL, Integer.MIN_VALUE };
+		// initialize v = -∞
+		int[] value = new int[] { UNKNOW_COL, Integer.MIN_VALUE };
+		// for each successor of state:
 		for (int col = 0; col < board.getCols(); col++) {
-			Board clonedBoard = board.copy();
-			if (clonedBoard.place(col)) {
-				int[] nextMove = this.minValue(clonedBoard, depth - 1, alpha, beta);
-				if (max[0] == UNKNOW_COL || nextMove[1] > max[1]) {
-					max[0] = col;
-					max[1] = nextMove[1];
-					alpha = nextMove[1];
+			Board clonedBoard = board.clone();
+			if (clonedBoard.addDisc(col)) {
+				// v = max(v, min-value(successor, α, β))
+				int[] valueSucessor = this.minValue(clonedBoard, depth - 1, alpha, beta);
+				if (value[0] == UNKNOW_COL || valueSucessor[1] > value[1]) {
+					value[0] = col;
+					value[1] = valueSucessor[1];
 				}
-				if (alpha >= beta) {
-					return max;
+				// if v ≥ β return v 
+				if (value[1] >= beta) {
+					return value;
 				}
+				// α = max(α, v)
+				alpha = Math.max(alpha, value[1]);
 			}
 		}
-		return max;
+		// return v
+		return value;
 	}
 
-	public int[] minValue(Board board, int depth, int alpha, int beta) {
+	public int[] minValue(Board board, int depth, int alpha, int beta) {	
+		// if terminal (state) return utility(state)
 		int score = board.score();
-		if (board.isFinished(depth, score)) {
+		if (board.isTerminal(depth, score)) {
 			return new int[] { UNKNOW_COL, score };
 		}
-		int[] min = new int[] { UNKNOW_COL, Integer.MAX_VALUE };
+		// initialize v = +∞
+		int[] value = new int[] { UNKNOW_COL, Integer.MAX_VALUE };
+		// for each successor of state:
 		for (int col = 0; col < board.getCols(); col++) {
-			final Board clonedBoard = board.copy();
-			if (clonedBoard.place(col)) {
-				int[] nextMove = this.maxValue(clonedBoard, depth - 1, alpha, beta);
-				if (min[0] == UNKNOW_COL || nextMove[1] < min[1]) {
-					min[0] = col;
-					min[1] = nextMove[1];
-					beta = nextMove[1];
+			final Board clonedBoard = board.clone();
+			if (clonedBoard.addDisc(col)) {
+				// v = min(v, max-value(successor, α, β))
+				int[] valueSucessor = this.maxValue(clonedBoard, depth - 1, alpha, beta);
+				if (value[0] == UNKNOW_COL || valueSucessor[1] < value[1]) {
+					value[0] = col;
+					value[1] = valueSucessor[1];
 				}
-				if (alpha >= beta) {
-					return min;
+				// if v ≤ α return v
+				if (value[1] <= alpha) {
+					return value;
 				}
+				// β = min(β, v)
+				beta = Math.min(beta, value[1]);
 			}
 		}
-		return min;
+		// return v
+		return value;
 	}
 	
 	/**

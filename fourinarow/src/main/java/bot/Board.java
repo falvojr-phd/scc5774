@@ -1,6 +1,6 @@
 package bot;
 
-import static bot.BotInit.*;
+import static bot.BotConfig.*;
 
 /**
  * Board 4 in a row abstraction.
@@ -9,10 +9,10 @@ import static bot.BotInit.*;
  */
 public class Board {
 
-	private int player;
 	private int[][] field;
 	private int cols;
 	private int rows;
+	private int player;
 
 	public Board(int[][] field, int player) {
 		this.field = field;
@@ -61,7 +61,7 @@ public class Board {
 		}
 	}
 	
-	public boolean isFinished(int depth, int score) {
+	public boolean isTerminal(int depth, int score) {
 		if (depth == 0 || score == SCORE || score == -SCORE || isFull()) {
 			return true;
 		}
@@ -72,7 +72,7 @@ public class Board {
 		return this.field[0][col] == EMPTY_SLOT;
 	}
 	
-	public boolean place(int col) {
+	public boolean addDisc(int col) {
 	    if (isValidMove(col) && col >= 0 && col < this.cols) {
 	        for (int row = this.rows - 1; row >= 0; row--) {
 	            if (this.field[row][col] == EMPTY_SLOT) {
@@ -177,7 +177,7 @@ public class Board {
 		return scoreVertical + scoreHorizontal + scoreDiagonalLeftBottom + scoreDiagonalRightBottom;
 	}
 	
-	public Board copy() {
+	public Board clone() {
 		int [][] newField = new int[this.field.length][];
 		for(int i = 0; i < this.field.length; i++) {
 		  int[] aMatrix = this.field[i];

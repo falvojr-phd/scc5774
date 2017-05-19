@@ -1,6 +1,6 @@
 package bot.ai;
 
-import static bot.BotInit.*;
+import static bot.BotConfig.*;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
