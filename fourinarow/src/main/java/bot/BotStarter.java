@@ -23,9 +23,9 @@ public class BotStarter {
 	 * @return The column where the turn was made.
 	 */
 	public int makeTurn(final Field field) {
-		if (field.isEmpty()) {
-			return 3;
-		}
+//		if (field.isEmpty()) {
+//			return 3;
+//		}
 		final int[] state = Minimax.getInstance().maxValue(field, DEPTH, ALPHA, BETA);
 		final int col = state[0];
 		return col;
