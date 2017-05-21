@@ -2,6 +2,8 @@ package bot.ai;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.Test;
 
 import bot.BotParser;
@@ -86,10 +88,18 @@ public class MinimaxTest {
 	}
 	
 	private int runMinimax(int[][] field) {
+		final long startTime = System.nanoTime();
+		
 		final int player = 1;
-		BotParser.mBotId = player;
-		BotStarter botStarter = new BotStarter();
-		return botStarter.makeTurn(new Field(field, player));
+		BotParser.setBotId(player);
+		final BotStarter botStarter = new BotStarter();
+		final int col = botStarter.makeTurn(new Field(field, player));
+		
+		final long endTime = System.nanoTime();
+		final long elapsedTime = TimeUnit.MILLISECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS);
+		System.out.printf("%.3f seconds", elapsedTime / 1000D);
+		
+		return col;
 	}
 
 }

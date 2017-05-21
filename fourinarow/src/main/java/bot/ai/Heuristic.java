@@ -2,8 +2,8 @@ package bot.ai;
 
 import static bot.BotConfig.SCORE;
 
-import bot.Field;
 import bot.BotParser;
+import bot.Field;
 
 /**
  * Heuristic (utility funtion) implementation.
@@ -63,72 +63,79 @@ public class Heuristic {
 		for (int row = 0; row < field.getRows() - 3; row++) {
 			for (int col = 0; col < field.getCols(); col++) {
 				final int score = scorePosition(field, row, col, 1, 0);
-				if (score == SCORE || score == -SCORE) {
+				if (isTerminal(score)) {
 					return score;
 				}
 				scoreVertical += score;
 			}
 		}
+		
 		int scoreHorizontal = 0;
 		for (int row = 0; row < field.getRows(); row++) {
 			for (int col = 0; col < field.getCols() - 3; col++) {
 				final int score = scorePosition(field, row, col, 0, 1);
-				if (score == SCORE || score == -SCORE) {
+				if (isTerminal(score)) {
 					return score;
 				}
 				scoreHorizontal += score;
 			}
 		}
+		
 		int scoreDiagonalLeftBottom = 0;
 		for (int row = 0; row < field.getRows() - 3; row++) {
 			for (int col = 0; col < field.getCols() - 3; col++) {
 				final int score = scorePosition(field, row, col, 1, 1);
-				if (score == SCORE || score == -SCORE) {
+				if (isTerminal(score)) {
 					return score;
 				}
 				scoreDiagonalLeftBottom += score;
 			}
 		}
+//		scoreDiagonalLeftBottom = increaseScore(field, scoreDiagonalLeftBottom);
+		
 		int scoreDiagonalRightBottom = 0;
 		for (int row = 3; row < field.getRows(); row++) {
-			for (int col = 0; col <= field.getCols() - 4; col++) {
+			for (int col = 0; col < field.getCols() - 3; col++) {
 				final int score = scorePosition(field, row, col, -1, +1);
-				if (score == SCORE || score == -SCORE) {
+				if (isTerminal(score)) {
 					return score;
 				}
 				scoreDiagonalRightBottom += score;
 			}
 		}
+//		scoreDiagonalRightBottom = increaseScore(field, scoreDiagonalRightBottom);
+		
 		return scoreVertical + scoreHorizontal + scoreDiagonalLeftBottom + scoreDiagonalRightBottom;
 	}
 	
 	private int scorePosition(final Field field, int row, int col, final int deltaY, final int deltaX) {
 		int enemyPoints = 0;
-		int myPoints = 0;
+		int botPoints = 0;
 		for (int i = 0; i < 4; i++) {
-			if (field.getBoard()[row][col] == getEnemyId()) {
+			if (field.getBoard()[row][col] == BotParser.getEnemyId()) {
 				enemyPoints++;
-			} else if (field.getBoard()[row][col] == getMyId()) {
-				myPoints++;
+			} else if (field.getBoard()[row][col] == BotParser.getBotId()) {
+				botPoints++;
 			}
 			row += deltaY;
 			col += deltaX;
 		}
 		if (enemyPoints == 4) {
 			return -SCORE;
-		} else if (myPoints == 4) {
+		} else if (botPoints == 4) {
 			return SCORE;
 		} else {
-			return myPoints;
+			return botPoints;
 		}
 	}
 	
-	private int getMyId() {
-		return BotParser.mBotId;
+	private boolean isTerminal(final int score) {
+		return score == SCORE || score == -SCORE;
 	}
-
-	private int getEnemyId() {
-		return this.getMyId() == 1 ? 2 : 1;
+	
+	@SuppressWarnings("unused")
+	private int increaseScore(Field field, int score) {
+		return field.getPlayer() == BotParser.getBotId() ? (int) Math.round(score * 1.25) : score;
 	}
 	
 	/**

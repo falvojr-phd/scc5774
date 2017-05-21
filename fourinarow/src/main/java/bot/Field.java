@@ -43,6 +43,10 @@ public class Field {
 		this.board = new int[rows][cols];
 	}
 
+	public int getPlayer() {
+		return player;
+	}
+
 	public void setPlayer(final int player) {
 		this.player = player;
 	}
@@ -131,7 +135,6 @@ public class Field {
 	}
 	
 	private int switchRound(int round) {
-		// 1 My Bot, 2 Enemy
 		if (round == 1) {
 			return 2;
 		} else {

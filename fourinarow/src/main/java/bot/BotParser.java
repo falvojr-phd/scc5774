@@ -27,14 +27,13 @@ import java.util.Scanner;
  * 
  * @author Venilton FalvoJr <falvojr@gmail.com>, Jim van Eeden <jim@starapple.nl>, Joost de Meij <joost@starapple.nl>
  */
-
 public class BotParser {
+
+    private static int botId = 0;
     
-	final Scanner scan;
-    final BotStarter bot;
-    
-    private Field mBoard;
-    public static int mBotId = 0;
+	private final Scanner scan;
+	private final BotStarter bot;
+    private Field field;
 
     
     public BotParser(BotStarter bot) {
@@ -43,7 +42,7 @@ public class BotParser {
 	}
     
     public void run() {
-        mBoard = new Field(0, 0);
+        field = new Field(0, 0);
         while(scan.hasNextLine()) {
         	final String line = scan.nextLine();
 
@@ -55,23 +54,23 @@ public class BotParser {
             
             if(parts[0].equals("settings")) {
                 if (parts[1].equals("field_columns")) {
-                    mBoard.setCols(Integer.parseInt(parts[2]));
+                    field.setCols(Integer.parseInt(parts[2]));
                 }
                 if (parts[1].equals("field_rows")) {
-                    mBoard.setRows(Integer.parseInt(parts[2]));
+                    field.setRows(Integer.parseInt(parts[2]));
                 }
                 if (parts[1].equals("your_botid")) {
-                    mBotId = Integer.parseInt(parts[2]);
-                    mBoard.setPlayer(mBotId);
+                	BotParser.setBotId(Integer.parseInt(parts[2]));
+                    field.setPlayer(BotParser.getBotId());
                 }
-            } else if(parts[0].equals("update")) { /* new field data */
+            } else if(parts[0].equals("update")) {
                 if (parts[2].equals("field")) {
                 	final String data = parts[3];
-                    mBoard.parseFromString(data); /* Parse Field with data */
+                    field.parseFromString(data);
                 }
             } else if(parts[0].equals("action")) {
-                if (parts[1].equals("move")) { /* move requested */
-                	final int column = bot.makeTurn(mBoard);
+                if (parts[1].equals("move")) {
+                	final int column = bot.makeTurn(field);
                     System.out.println("place_disc " + column);
                 }
             }
@@ -80,4 +79,16 @@ public class BotParser {
             }
         }
     }
+    
+	public static int getBotId() {
+		return BotParser.botId;
+	}
+
+	public static void setBotId(int botId) {
+		BotParser.botId = botId;
+	}
+
+	public static int getEnemyId() {
+		return BotParser.botId == 1 ? 2 : 1;
+	}
 }

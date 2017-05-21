@@ -9,7 +9,7 @@ public class BotConfig {
 	/**
 	 * Search depth.
 	 */
-	public static final int DEPTH = 9;
+	public static final int DEPTH = 8;
 	/**
 	 * Win/loss score.
 	 */
