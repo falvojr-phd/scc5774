@@ -58,11 +58,12 @@ public class Heuristic {
      * [ ][ ][ ][ ][ ][ ][ ] 4<br>
      * [ ][ ][ ][ ][ ][ ][ ] 5<br>
 	 */
-	public int score(final Field field) {
-		int scoreVertical = 0;
-		for (int row = 0; row < field.getRows() - 3; row++) {
-			for (int col = 0; col < field.getCols(); col++) {
-				final int score = scorePosition(field, row, col, 1, 0);
+	public short score(final Field field) {
+		final short[][] board = field.getBoard();
+		short scoreVertical = 0;
+		for (short row = 0; row < field.getRows() - 3; row++) {
+			for (short col = 0; col < field.getCols(); col++) {
+				final short score = scorePosition(board, row, col, 1, 0);
 				if (isTerminal(score)) {
 					return score;
 				}
@@ -70,10 +71,10 @@ public class Heuristic {
 			}
 		}
 		
-		int scoreHorizontal = 0;
-		for (int row = 0; row < field.getRows(); row++) {
-			for (int col = 0; col < field.getCols() - 3; col++) {
-				final int score = scorePosition(field, row, col, 0, 1);
+		short scoreHorizontal = 0;
+		for (short row = 0; row < field.getRows(); row++) {
+			for (short col = 0; col < field.getCols() - 3; col++) {
+				final short score = scorePosition(board, row, col, 0, 1);
 				if (isTerminal(score)) {
 					return score;
 				}
@@ -81,40 +82,39 @@ public class Heuristic {
 			}
 		}
 		
-		int scoreDiagonalLeftBottom = 0;
-		for (int row = 0; row < field.getRows() - 3; row++) {
-			for (int col = 0; col < field.getCols() - 3; col++) {
-				final int score = scorePosition(field, row, col, 1, 1);
+		short scoreDiagonalLeftBottom = 0;
+		for (short row = 0; row < field.getRows() - 3; row++) {
+			for (short col = 0; col < field.getCols() - 3; col++) {
+				final short score = scorePosition(board, row, col, 1, 1);
 				if (isTerminal(score)) {
 					return score;
 				}
 				scoreDiagonalLeftBottom += score;
 			}
 		}
-//		scoreDiagonalLeftBottom = increaseScore(field, scoreDiagonalLeftBottom);
 		
-		int scoreDiagonalRightBottom = 0;
-		for (int row = 3; row < field.getRows(); row++) {
-			for (int col = 0; col < field.getCols() - 3; col++) {
-				final int score = scorePosition(field, row, col, -1, +1);
+		short scoreDiagonalRightBottom = 0;
+		for (short row = 3; row < field.getRows(); row++) {
+			for (short col = 0; col < field.getCols() - 3; col++) {
+				final short score = scorePosition(board, row, col, -1, +1);
 				if (isTerminal(score)) {
 					return score;
 				}
 				scoreDiagonalRightBottom += score;
 			}
 		}
-//		scoreDiagonalRightBottom = increaseScore(field, scoreDiagonalRightBottom);
 		
-		return scoreVertical + scoreHorizontal + scoreDiagonalLeftBottom + scoreDiagonalRightBottom;
+		return (short) (scoreVertical + scoreHorizontal + scoreDiagonalLeftBottom + scoreDiagonalRightBottom);
 	}
 	
-	private int scorePosition(final Field field, int row, int col, final int deltaY, final int deltaX) {
-		int enemyPoints = 0;
-		int botPoints = 0;
-		for (int i = 0; i < 4; i++) {
-			if (field.getBoard()[row][col] == BotParser.getEnemyId()) {
+	private short scorePosition(final short[][] board, short row, short col, final int deltaY, final int deltaX) {
+		short enemyPoints = 0;
+		short botPoints = 0;
+		for (short i = 0; i < 4; i++) {
+			final short disc = board[row][col];
+			if (disc == BotParser.getEnemyId()) {
 				enemyPoints++;
-			} else if (field.getBoard()[row][col] == BotParser.getBotId()) {
+			} else if (disc == BotParser.getBotId()) {
 				botPoints++;
 			}
 			row += deltaY;
@@ -129,13 +129,8 @@ public class Heuristic {
 		}
 	}
 	
-	private boolean isTerminal(final int score) {
+	private boolean isTerminal(final short score) {
 		return score == SCORE || score == -SCORE;
-	}
-	
-	@SuppressWarnings("unused")
-	private int increaseScore(Field field, int score) {
-		return field.getPlayer() == BotParser.getBotId() ? (int) Math.round(score * 1.25) : score;
 	}
 	
 	/**

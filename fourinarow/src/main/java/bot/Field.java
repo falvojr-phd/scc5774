@@ -1,6 +1,7 @@
 package bot;
 
-import static bot.BotConfig.*;
+import static bot.BotConfig.EMPTY_SLOT;
+import static bot.BotConfig.SCORE;
 
 import bot.ai.Heuristic;
 
@@ -11,43 +12,43 @@ import bot.ai.Heuristic;
  */
 public class Field {
 
-	private int[][] board;
-	private int cols;
-	private int rows;
-	private int player;
+	private short[][] board;
+	private short cols;
+	private short rows;
+	private short player;
 
-	public Field(final int[][] board, final int player) {
+	public Field(final short[][] board, final short player) {
 		this.board = board;
-		this.rows = board.length;
-		this.cols = board[0].length;
+		this.rows = (short) board.length;
+		this.cols = (short) board[0].length;
 		this.player = player;
 	}
 
-	public Field(final int rows, final int cols) {
-		this.board = new int[rows][cols];
+	public Field(final short rows, final short cols) {
+		this.board = new short[rows][cols];
 		this.rows = rows;
 		this.cols = cols;
 	}
 
-	public int[][] getBoard() {
+	public short[][] getBoard() {
 		return board;
 	}
 
-	public void setCols(final int cols) {
+	public void setCols(final short cols) {
 		this.cols = cols;
-		this.board = new int[rows][cols];
+		this.board = new short[rows][cols];
 	}
 
-	public void setRows(final int rows) {
+	public void setRows(final short rows) {
 		this.rows = rows;
-		this.board = new int[rows][cols];
+		this.board = new short[rows][cols];
 	}
 
 	public int getPlayer() {
 		return player;
 	}
 
-	public void setPlayer(final int player) {
+	public void setPlayer(final short player) {
 		this.player = player;
 	}
 
@@ -65,14 +66,14 @@ public class Field {
 		int counter = 0;
 		for (int row = 0; row < this.rows; row++) {
 			for (int col = 0; col < this.cols; col++) {
-				this.board[row][col] = Integer.parseInt(dataArray[counter]);
+				this.board[row][col] = Short.parseShort(dataArray[counter]);
 				counter++;
 			}
 		}
 	}
 	
 	public boolean isEmpty() {
-		for (int col = 0; col < this.cols; col++) {
+		for (short col = 0; col < this.cols; col++) {
 			if (!isEmptyColumn(col)) {
 				return false;
 			}
@@ -87,7 +88,7 @@ public class Field {
 		return false;
 	}
 
-	public boolean addDisc(final int col) {
+	public boolean addDisc(final short col) {
 		if (isNonFullColumn(col) && col >= 0 && col < this.cols) {
 			for (int row = this.rows - 1; row >= 0; row--) {
 				if (this.board[row][col] == EMPTY_SLOT) {
@@ -103,22 +104,22 @@ public class Field {
 	}
 
 	public Field clone() {
-		final int[][] newBoard = new int[this.board.length][];
-		for (int i = 0; i < this.board.length; i++) {
-			final int[] aMatrix = this.board[i];
-			final int aLength = aMatrix.length;
-			newBoard[i] = new int[aLength];
+		final short[][] newBoard = new short[this.board.length][];
+		for (short i = 0; i < this.board.length; i++) {
+			final short[] aMatrix = this.board[i];
+			final short aLength = (short) aMatrix.length;
+			newBoard[i] = new short[aLength];
 			System.arraycopy(aMatrix, 0, newBoard[i], 0, aLength);
 		}
 		return new Field(newBoard, this.player);
 	}
 
-	public int score() {
+	public short score() {
 		return Heuristic.getInstance().score(this);
 	}
 
 	private boolean isFull() {
-		for (int col = 0; col < this.cols; col++) {
+		for (short col = 0; col < this.cols; col++) {
 			if (isNonFullColumn(col)) {
 				return false;
 			}
@@ -126,15 +127,15 @@ public class Field {
 		return true;
 	}
 
-	private boolean isNonFullColumn(final int col) {
+	private boolean isNonFullColumn(final short col) {
 		return this.board[0][col] == EMPTY_SLOT;
 	}
 	
-	private boolean isEmptyColumn(final int col) {
+	private boolean isEmptyColumn(final short col) {
 		return this.board[this.rows - 1][col] == EMPTY_SLOT;
 	}
 	
-	private int switchRound(int round) {
+	private short switchRound(short round) {
 		if (round == 1) {
 			return 2;
 		} else {

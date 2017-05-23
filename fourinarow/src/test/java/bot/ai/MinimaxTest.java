@@ -19,7 +19,7 @@ public class MinimaxTest {
 	
 	@Test
 	public void testEmpty() {
-		int[][] board = {
+		short[][] board = {
 			{0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0},
@@ -33,7 +33,7 @@ public class MinimaxTest {
 	
 	@Test
 	public void testHorizontalWin() {
-		int[][] board = {
+		short[][] board = {
 			{0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 2, 0, 0, 0},
@@ -47,7 +47,7 @@ public class MinimaxTest {
 	
 	@Test
 	public void testVerticalWin() {
-		int[][] board = {
+		short[][] board = {
 			{0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0},
@@ -61,7 +61,7 @@ public class MinimaxTest {
 
 	@Test
 	public void testDiagonalRightBottom() {
-		int[][] board = {
+		short[][] board = {
 			{0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 2, 0, 0, 0},
@@ -75,7 +75,7 @@ public class MinimaxTest {
 	
 	@Test
 	public void testDiagonalLeftBottom() {
-		int[][] board = {
+		short[][] board = {
 			{0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0},
 			{0, 0, 0, 0, 0, 0, 0},
@@ -87,10 +87,10 @@ public class MinimaxTest {
 		assertTrue("Diagonal left-bottom win possibility.", col == 3);
 	}
 	
-	private int runMinimax(int[][] field) {
+	private int runMinimax(short[][] field) {
 		final long startTime = System.nanoTime();
 		
-		final int player = 1;
+		final short player = 1;
 		BotParser.setBotId(player);
 		final BotStarter botStarter = new BotStarter();
 		final int col = botStarter.makeTurn(new Field(field, player));

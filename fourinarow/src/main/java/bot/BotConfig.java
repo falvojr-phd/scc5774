@@ -9,23 +9,23 @@ public class BotConfig {
 	/**
 	 * Search depth.
 	 */
-	public static final int DEPTH = 8;
+	public static final short DEPTH = 10;
 	/**
 	 * Win/loss score.
 	 */
-	public static final int SCORE = 100000;
+	public static final short SCORE = Short.MAX_VALUE;
 	/**
 	 * Empty slot identification.
 	 */
-	public static final int EMPTY_SLOT = 0;
+	public static final short EMPTY_SLOT = 0;
 	/**
 	 * Alpha default value.
 	 */
-	public static final int ALPHA = Integer.MIN_VALUE;
+	public static final short ALPHA = Short.MIN_VALUE;
 	/**
 	 * Beta default value.
 	 */
-	public static final int BETA = Integer.MAX_VALUE;
+	public static final short BETA = Short.MAX_VALUE;
 
 	private BotConfig() {
 		super();

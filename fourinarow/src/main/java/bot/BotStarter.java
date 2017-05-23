@@ -23,8 +23,8 @@ public class BotStarter {
 	 * @return The column where the turn was made.
 	 */
 	public int makeTurn(final Field field) {	
-		final int[] state = Minimax.getInstance().maxValue(field, DEPTH, ALPHA, BETA);
-		final int col = state[0];
+		final short[] state = Minimax.getInstance().maxValue(field, DEPTH, ALPHA, BETA);
+		final short col = state[0];
 		return col;
 	}
 

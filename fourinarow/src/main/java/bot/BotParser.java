@@ -29,22 +29,21 @@ import java.util.Scanner;
  */
 public class BotParser {
 
-    private static int botId = 0;
+    private static short botId = 0;
     
 	private final Scanner scan;
 	private final BotStarter bot;
     private Field field;
 
-    
     public BotParser(BotStarter bot) {
 		this.scan = new Scanner(System.in);
 		this.bot = bot;
 	}
     
     public void run() {
-        field = new Field(0, 0);
-        while(scan.hasNextLine()) {
-        	final String line = scan.nextLine();
+    	this.field = new Field((short) 0, (short) 0);
+        while(this.scan.hasNextLine()) {
+        	final String line = this.scan.nextLine();
 
             if(line.length() == 0) {
                 continue;
@@ -54,23 +53,23 @@ public class BotParser {
             
             if(parts[0].equals("settings")) {
                 if (parts[1].equals("field_columns")) {
-                    field.setCols(Integer.parseInt(parts[2]));
+                	this.field.setCols(Short.parseShort(parts[2]));
                 }
                 if (parts[1].equals("field_rows")) {
-                    field.setRows(Integer.parseInt(parts[2]));
+                	this.field.setRows(Short.parseShort(parts[2]));
                 }
                 if (parts[1].equals("your_botid")) {
-                	BotParser.setBotId(Integer.parseInt(parts[2]));
-                    field.setPlayer(BotParser.getBotId());
+                	BotParser.setBotId(Short.parseShort(parts[2]));
+                	this.field.setPlayer(BotParser.getBotId());
                 }
             } else if(parts[0].equals("update")) {
                 if (parts[2].equals("field")) {
                 	final String data = parts[3];
-                    field.parseFromString(data);
+                	this.field.parseFromString(data);
                 }
             } else if(parts[0].equals("action")) {
                 if (parts[1].equals("move")) {
-                	final int column = bot.makeTurn(field);
+                	final int column = this.bot.makeTurn(this.field);
                     System.out.println("place_disc " + column);
                 }
             }
@@ -80,15 +79,15 @@ public class BotParser {
         }
     }
     
-	public static int getBotId() {
+	public static short getBotId() {
 		return BotParser.botId;
 	}
 
-	public static void setBotId(int botId) {
+	public static void setBotId(short botId) {
 		BotParser.botId = botId;
 	}
 
-	public static int getEnemyId() {
-		return BotParser.botId == 1 ? 2 : 1;
+	public static short getEnemyId() {
+		return (short) (BotParser.botId == 1 ? 2 : 1);
 	}
 }

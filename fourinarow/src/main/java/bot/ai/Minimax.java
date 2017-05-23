@@ -11,20 +11,20 @@ public class Minimax {
 
 	private static final int UNKNOW_COL = -1;
 	
-	public int[] maxValue(final Field field, final int depth, int alpha, final int beta) {
+	public short[] maxValue(final Field field, final short depth, short alpha, final short beta) {
 		// if terminal (state) return utility(state)
-		final int score = field.score();
+		final short score = field.score();
 		if (field.isTerminal(depth, score)) {
-			return new int[] { UNKNOW_COL, score };
+			return new short[] { UNKNOW_COL, score };
 		}
 		// initialize v = -∞
-		final int[] value = new int[] { UNKNOW_COL, Integer.MIN_VALUE };
+		final short[] value = new short[] { UNKNOW_COL, Short.MIN_VALUE };
 		// for each successor of state:
-		for (int col = 0; col < field.getCols(); col++) {
+		for (short col = 0; col < field.getCols(); col++) {
 			final Field clonedField = field.clone();
 			if (clonedField.addDisc(col)) {
 				// v = max(v, min-value(successor, α, β))
-				final int[] valueSucessor = this.minValue(clonedField, depth - 1, alpha, beta);
+				final short[] valueSucessor = this.minValue(clonedField, (short) (depth - 1), alpha, beta);
 				if (value[0] == UNKNOW_COL || valueSucessor[1] > value[1]) {
 					value[0] = col;
 					value[1] = valueSucessor[1];
@@ -34,27 +34,27 @@ public class Minimax {
 					return value;
 				}
 				// α = max(α, v)
-				alpha = Math.max(alpha, value[1]);
+				alpha = (short) Math.max(alpha, value[1]);
 			}
 		}
 		// return v
 		return value;
 	}
 
-	public int[] minValue(final Field field, final int depth, final int alpha, int beta) {	
+	public short[] minValue(final Field field, final short depth, final short alpha, short beta) {	
 		// if terminal (state) return utility(state)
-		final int score = field.score();
+		final short score = field.score();
 		if (field.isTerminal(depth, score)) {
-			return new int[] { UNKNOW_COL, score };
+			return new short[] { UNKNOW_COL, score };
 		}
 		// initialize v = +∞
-		final int[] value = new int[] { UNKNOW_COL, Integer.MAX_VALUE };
+		final short[] value = new short[] { UNKNOW_COL, Short.MAX_VALUE };
 		// for each successor of state:
-		for (int col = 0; col < field.getCols(); col++) {
+		for (short col = 0; col < field.getCols(); col++) {
 			final Field clonedField = field.clone();
 			if (clonedField.addDisc(col)) {
 				// v = min(v, max-value(successor, α, β))
-				int[] valueSucessor = this.maxValue(clonedField, depth - 1, alpha, beta);
+				short[] valueSucessor = this.maxValue(clonedField, (short) (depth - 1), alpha, beta);
 				if (value[0] == UNKNOW_COL || valueSucessor[1] < value[1]) {
 					value[0] = col;
 					value[1] = valueSucessor[1];
@@ -64,7 +64,7 @@ public class Minimax {
 					return value;
 				}
 				// β = min(β, v)
-				beta = Math.min(beta, value[1]);
+				beta = (short) Math.min(beta, value[1]);
 			}
 		}
 		// return v
