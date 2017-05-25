@@ -1,6 +1,8 @@
 package bot;
 
-import static bot.BotConfig.*;
+import static bot.BotConfig.DEPTH;
+import static bot.ai.Minimax.ALPHA;
+import static bot.ai.Minimax.BETA;
 
 import bot.ai.Minimax;
 
@@ -22,10 +24,13 @@ public class BotStarter {
 	 *
 	 * @return The column where the turn was made.
 	 */
-	public int makeTurn(final Field field) {	
+	public int makeTurn(final Field field) {
+		if (field.isEmpty()) {
+			return  3;
+		}
 		final short[] state = Minimax.getInstance().maxValue(field, DEPTH, ALPHA, BETA);
-		final short col = state[0];
-		return col;
+		final short column = state[0];
+		return column;
 	}
 
 	public static void main(String[] args) {

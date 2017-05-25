@@ -1,7 +1,5 @@
 package bot.ai;
 
-import static bot.BotConfig.SCORE;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -21,7 +19,16 @@ import bot.Field;
  */
 @Deprecated
 public class HeuristicParallel {
-
+	
+	/**
+	 * Win score.
+	 */
+	public static final short WIN = Short.MAX_VALUE;	
+	/**
+	 * Loss score.
+	 */
+	public static final short LOSS = Short.MIN_VALUE;
+	
 	private final ExecutorService executor = Executors.newFixedThreadPool(4);
 	
 	/**
@@ -178,16 +185,16 @@ public class HeuristicParallel {
 			col += deltaX;
 		}
 		if (enemyPoints == 4) {
-			return -SCORE;
+			return LOSS;
 		} else if (botPoints == 4) {
-			return SCORE;
+			return WIN;
 		} else {
 			return botPoints;
 		}
 	}
 	
 	private boolean isTerminal(final int score) {
-		return score == SCORE || score == -SCORE;
+		return score == WIN || score == LOSS;
 	}
 	
 	@SuppressWarnings("unused")

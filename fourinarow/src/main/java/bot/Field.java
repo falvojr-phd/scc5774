@@ -1,17 +1,19 @@
 package bot;
 
-import static bot.BotConfig.EMPTY_SLOT;
-import static bot.BotConfig.SCORE;
-
 import bot.ai.Heuristic;
 
 /**
- * Board 4 in a row abstraction.
+ * 4 in a row board abstraction.
  * 
  * @author Venilton FalvoJr <falvojr@gmail.com>
  */
 public class Field {
-
+	
+	/**
+	 * Empty slot identification.
+	 */
+	public static final short EMPTY_SLOT = 0;
+	
 	private short[][] board;
 	private short cols;
 	private short rows;
@@ -82,7 +84,7 @@ public class Field {
 	}
 	
 	public boolean isTerminal(final int depth, final int score) {
-		if (depth == 0 || score == SCORE || score == -SCORE || isFull()) {
+		if (depth == 0 || score == Heuristic.WIN || score == Heuristic.LOSS || isFull()) {
 			return true;
 		}
 		return false;
@@ -96,7 +98,8 @@ public class Field {
 					break;
 				}
 			}
-			this.player = switchRound(this.player);
+			// Switch round (change player)
+			this.player = (short) (this.player == 1 ? 2 : 1);
 			return true;
 		} else {
 			return false;
@@ -133,14 +136,6 @@ public class Field {
 	
 	private boolean isEmptyColumn(final short col) {
 		return this.board[this.rows - 1][col] == EMPTY_SLOT;
-	}
-	
-	private short switchRound(short round) {
-		if (round == 1) {
-			return 2;
-		} else {
-			return 1;
-		}
 	}
 
 }

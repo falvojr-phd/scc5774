@@ -1,7 +1,5 @@
 package bot.ai;
 
-import static bot.BotConfig.SCORE;
-
 import bot.BotParser;
 import bot.Field;
 
@@ -12,6 +10,15 @@ import bot.Field;
  */
 public class Heuristic {
 
+	/**
+	 * Win score.
+	 */
+	public static final short WIN = Short.MAX_VALUE;	
+	/**
+	 * Loss score.
+	 */
+	public static final short LOSS = Short.MIN_VALUE;
+	
 	/**
 	 * Score function with following checks:<br>
 	 * <br>
@@ -121,16 +128,16 @@ public class Heuristic {
 			col += deltaX;
 		}
 		if (enemyPoints == 4) {
-			return -SCORE;
+			return LOSS;
 		} else if (botPoints == 4) {
-			return SCORE;
+			return WIN;
 		} else {
 			return botPoints;
 		}
 	}
 	
 	private boolean isTerminal(final short score) {
-		return score == SCORE || score == -SCORE;
+		return score == WIN || score == LOSS;
 	}
 	
 	/**
